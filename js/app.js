@@ -17,6 +17,7 @@ let tie;
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll('.sqr');
 const messageEl = document.querySelector('#message');
+const boardEl = document.querySelector('.board');
 
 /*-------------------------------- Functions --------------------------------*/
 function init() {
@@ -48,5 +49,61 @@ function updateMessage() {
 		messageEl.textContent = `Player ${turn} has won!`;
 	}
 }
+
+function handleClick(event) {
+	if (
+		event.target.className === 'sqr' &&
+		board[Number(event.target.id)] === ''
+	) {
+		board[Number(event.target.id)] = turn;
+		checkForWinner();
+		checkForTie();
+		switchPlayerTurn();
+		render();
+	}
+}
+
+function checkForWinner() {
+	winningCombos.forEach((combo) => {
+		let spot1 = combo[0];
+		let spot2 = combo[1];
+		let spot3 = combo[2];
+		if (
+			board[spot1] === board[spot2] &&
+			board[spot1] === board[spot3] &&
+			board[spot1] !== ''
+		) {
+			winner = true;
+			boardEl.removeEventListener('click', handleClick);
+		}
+	});
+}
+
+function checkForTie() {
+	if (winner === true) {
+		return;
+	} else if (board.includes('')) {
+		return;
+	} else {
+		tie = true;
+		boardEl.removeEventListener('click', handleClick);
+	}
+}
+
+function switchPlayerTurn() {
+	if (winner === true) {
+		return;
+	}
+	switch (turn) {
+		case 'X':
+			turn = 'O';
+			break;
+		case 'O':
+			turn = 'X';
+			break;
+	}
+}
 /*----------------------------- Event Listeners -----------------------------*/
+boardEl.addEventListener('click', handleClick);
+
 init();
