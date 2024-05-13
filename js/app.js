@@ -1,14 +1,24 @@
 /*-------------------------------- Constants --------------------------------*/
 
 /*---------------------------- Variables (state) ----------------------------*/
-const board = [];
+let board;
 let turn;
-let winner = false;
-let tie = false;
+let winner;
+let tie;
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll('.sqr');
 const messageEl = document.querySelector('#message');
 
 /*-------------------------------- Functions --------------------------------*/
+function init() {
+	board = ['', '', '', '', '', '', '', '', ''];
+	turn = 'X';
+	winner = false;
+	tie = false;
+	render();
+}
 
+function render() {}
 /*----------------------------- Event Listeners -----------------------------*/
+
+init();
