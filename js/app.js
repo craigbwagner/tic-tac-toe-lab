@@ -18,6 +18,7 @@ let tie;
 const squareEls = document.querySelectorAll('.sqr');
 const messageEl = document.querySelector('#message');
 const boardEl = document.querySelector('.board');
+const resetBtnEl = document.querySelector('#reset');
 
 /*-------------------------------- Functions --------------------------------*/
 function init() {
@@ -25,6 +26,7 @@ function init() {
 	turn = 'X';
 	winner = false;
 	tie = false;
+	boardEl.addEventListener('click', handleClick);
 	render();
 }
 
@@ -37,7 +39,6 @@ function updateBoard() {
 	board.forEach((element, index) => {
 		squareEls[index].textContent = element;
 	});
-	console.log(squareEls);
 }
 
 function updateMessage() {
@@ -65,13 +66,10 @@ function handleClick(event) {
 
 function checkForWinner() {
 	winningCombos.forEach((combo) => {
-		let spot1 = combo[0];
-		let spot2 = combo[1];
-		let spot3 = combo[2];
 		if (
-			board[spot1] === board[spot2] &&
-			board[spot1] === board[spot3] &&
-			board[spot1] !== ''
+			board[combo[0]] === board[combo[1]] &&
+			board[combo[0]] === board[combo[2]] &&
+			board[combo[0]] !== ''
 		) {
 			winner = true;
 			boardEl.removeEventListener('click', handleClick);
@@ -104,6 +102,8 @@ function switchPlayerTurn() {
 	}
 }
 /*----------------------------- Event Listeners -----------------------------*/
-boardEl.addEventListener('click', handleClick);
+//square click event listener has been moved to init function checkForTie and
+//checkForWinner both remove this listener
+resetBtnEl.addEventListener('click', init);
 
 init();
